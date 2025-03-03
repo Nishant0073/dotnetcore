@@ -1,3 +1,6 @@
+using System.Net.NetworkInformation;
+using Microsoft.Extensions.FileProviders;
+
 var builder = WebApplication.CreateBuilder(
     new WebApplicationOptions(){
         WebRootPath = "myroot"
@@ -9,8 +12,13 @@ app.Use(async (context,next) => {
     Endpoint endpoint = context.GetEndpoint();
     await next(context);
 });
-// enabled static files
+// enabled static files, works with wwwroot folder
 app.UseStaticFiles();
+
+//for another static folder 
+app.UseStaticFiles(new StaticFileOptions(){
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath,"mywebroot"))
+});
 app.UseRouting();
 
 app.Use(async (context,next) =>{
