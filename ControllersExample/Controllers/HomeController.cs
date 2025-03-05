@@ -30,7 +30,8 @@ namespace ControllersExample.Controllers
         [Route("/person")]
         public JsonResult Person()
         {
-            var person = new Person{
+            var person = new Person
+            {
                 Id = Guid.NewGuid(),
                 FirstName = "Nishant",
                 LastName = "Shingate",
@@ -38,6 +39,25 @@ namespace ControllersExample.Controllers
             };
             //return new JsonResult(person);
             return Json(person);
+        }
+        [Route("/file-download")]
+        public VirtualFileResult FileDownload()
+        {
+            //return new VirtualFileResult("dia1.pdf", "application/pdf");
+            return File("dia1.pdf", "application/pdf");
+        }
+
+        [Route("/file-download2")]
+        public PhysicalFileResult FileDownload2()
+        {
+            //return new PhysicalFileResult("/home/nishant/dia1.pdf", "application/pdf");
+            return PhysicalFile("/home/nishant/dia1.pdf", "application/pdf");
+        }
+        [Route("/file-download3")]
+        public FileContentResult FileDownload3()
+        {
+            Byte[] bytes = System.IO.File.ReadAllBytes("/home/nishant/Pictures/Screenshots/image1.png");
+            return File(bytes,"application/img");
         }
     }
 

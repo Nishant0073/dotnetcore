@@ -3,6 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 var app = builder.Build();
 
+app.UseStaticFiles();
 //it will do two things call useRoutingController and useEndpointController
 app.MapControllers();
 
