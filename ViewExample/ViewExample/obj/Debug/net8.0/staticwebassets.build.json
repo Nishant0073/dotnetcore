@@ -1,0 +1,20 @@
+{
+  "Version": 1,
+  "Hash": "Vwu1UHrkEeTMQK1eE3aDBESdBNQmiTOr/YaBlC7pcok=",
+  "Source": "ViewExample",
+  "BasePath": "_content/ViewExample",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ViewExample\\wwwroot",
+      "Source": "ViewExample",
+      "ContentRoot": "C:\\Users\\nishant\\StudioProjects\\dotnetcore\\ViewExample\\ViewExample\\wwwroot\\",
+      "BasePath": "_content/ViewExample",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [],
+  "Endpoints": []
+}

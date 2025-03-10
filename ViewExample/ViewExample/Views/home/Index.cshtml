@@ -1,0 +1,27 @@
+﻿@using ViewExample.Models
+@{
+    var pageTitle = "View Example Title";
+    var Person = new Person()
+            {
+                PersonName = "Nishant",
+                DOB = null,
+            };
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@pageTitle</title>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <h2>Hello @Person.PersonName</h2>
+    @if(Person.DOB.HasValue){
+
+        var age = Math.Round((DateTime.Now - Person.DOB).Value.TotalDays /365.25);
+        <h3>@age years old</h3>
+    }
+    else
+    {
+       <h3> Date of Birth is not provided</h3>
+    }
+</body>
+</html>
