@@ -9,7 +9,7 @@ namespace ViewExample.Controllers
         public IActionResult Index()
         {
             ViewData["title"] = "View Example Rozer views";
-            ViewData["people"] = new List<Person>()
+            List<Person> people =  new List<Person>()
             {
             new Person()
             {
@@ -30,7 +30,7 @@ namespace ViewExample.Controllers
                 Gender =  "Female"
             }
             };
-            return View();
+            return View("index",people);
         }
     }
 }

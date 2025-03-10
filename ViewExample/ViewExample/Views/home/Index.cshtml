@@ -1,4 +1,5 @@
 ﻿@using ViewExample.Models
+@model IEnumerable<Person>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>@ViewData["title"]</title>
@@ -10,7 +11,7 @@
         @{
             List<Person>? people = (List<Person>?)ViewData["people"];
         }
-        @foreach (var person in ViewBag.people)
+        @foreach (var person in Model)
         {
             <div class="box float-left w-50">
                 <h1> @person.PersonName</h1>
