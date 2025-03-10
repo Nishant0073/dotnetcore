@@ -21,11 +21,12 @@
                             <td>Name</td>
                             <td>@person.PersonName</td>
                         </tr>
-                        @if(person.DOB!=null){
-                        <tr>
-                            <td>DOB</td>
-                            <td>@person.DOB</td>
-                        </tr>
+                        @if (person.DOB != null)
+                        {
+                            <tr>
+                                <td>DOB</td>
+                                <td>@person.DOB</td>
+                            </tr>
                         }
                         <tr>
                             <td>Gender</td>
@@ -33,7 +34,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <a href="/person-details/@person.PersonName">Details</a>
+                <div>
+                    <a href="/person-details/@person.PersonName">Details</a>
+                </div>
+                <div>
+                    <a href="/person-with-product">Person With Product</a>
+                </div>
+
             </div>
         }
     </div>

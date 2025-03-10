@@ -1,0 +1,46 @@
+﻿@using ViewExample.Models
+@model PersonWithProduct
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Person with product</title>
+    <link href="~/StyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-content ">
+        <h1>
+            Person and Product
+        </h1>
+        <table class="table w-50">
+            <tbody>
+                <tr>
+                    <td>
+                       @Model.PersonData.PersonName
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       @Model.PersonData.Gender
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <table class="table w-50">
+            <tbody>
+                <tr>
+                    <td>
+                       @Model.ProductData.ProductId
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       @Model.ProductData.ProductName
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>
