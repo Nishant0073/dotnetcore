@@ -10,7 +10,7 @@
         @{
             List<Person>? people = (List<Person>?)ViewData["people"];
         }
-        @foreach (var person in people)
+        @foreach (var person in ViewBag.people)
         {
             <div class="box float-left w-50">
                 <h1> @person.PersonName</h1>
@@ -20,7 +20,7 @@
                             <td>Name</td>
                             <td>@person.PersonName</td>
                         </tr>
-                        @if(person.DOB.HasValue){
+                        @if(person.DOB!=null){
                         <tr>
                             <td>DOB</td>
                             <td>@person.DOB</td>
