@@ -24,13 +24,23 @@
 
     };
 }
+ @functions{
+    int? GetAge(DateTime? DateOfBirth)
+    {
+        if (DateOfBirth != null)
+        {
+            return(int)((DateTime.Now - DateOfBirth).Value.TotalDays / 365.25);
+        }
+        return null;
+    }
+}
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>@pageTitle</title>
 </head>
 <body>
     <h1>Welcome</h1>
-    @for(int i=0;i<2;i++)
+    @for (int i = 0; i < 3; i++)
     {
         var person = people[i];
         <span>@person.PersonName</span>
@@ -38,7 +48,7 @@
         <span>@person.Gender</span>
         @if (person.DOB.HasValue)
         {
-            <span>@person.DOB</span>
+            <span>@GetAge(person.DOB) years old</span>
         }
         <h1></h1>
     }
