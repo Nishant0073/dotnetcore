@@ -5,11 +5,7 @@ namespace ViewExample.Controllers
 {
     public class HomeController : Controller
     {
-        [Route("home")]
-        public IActionResult Index()
-        {
-            ViewData["title"] = "View Example Rozer views";
-            List<Person> people =  new List<Person>()
+        List<Person> people = new List<Person>()
             {
             new Person()
             {
@@ -30,7 +26,19 @@ namespace ViewExample.Controllers
                 Gender =  "Female"
             }
             };
-            return View("index",people);
+        [Route("home")]
+        public IActionResult Index()
+        {
+            ViewData["title"] = "View Example Rozer views";
+            return View("index", people);
+        }
+        [Route("person-details/{name}")]
+        public IActionResult Details(string? name)
+        {
+            if (name == null)
+                return Content("Name should not null");
+            Person matchingPerson = people.Where(tmp => tmp.PersonName == name).FirstOrDefault();
+            return View(matchingPerson);
         }
     }
 }
