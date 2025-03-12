@@ -9,9 +9,10 @@ namespace LayoutExample.Controllers
         {
             return View();
         }
-        [Route("/search-products")]
-        public IActionResult Search()
+        [Route("/search-products/{product_id}")]
+        public IActionResult Search(int product_id)
         {
+            ViewBag.productId = product_id;
             return View();
         }
         [Route("/order-products")]

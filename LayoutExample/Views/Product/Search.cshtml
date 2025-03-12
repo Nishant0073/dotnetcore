@@ -1,6 +1,9 @@
 ﻿@{
-    Layout = "~/Views/Shared/_ProductLayout.cshtml";
     ViewData["Title"] = "Search Product";
+    if (ViewBag.productId != null)
+    {
+        Layout = "~/Views/Shared/_ProductsLayout.cshtml";
+    }
 }
 
 <html xmlns="http://www.w4.org/1999/xhtml">
@@ -9,7 +12,7 @@
 </head>
 <body>
     <h1>
-        Search 
+        Search
     </h1>
     <p>This is search product page!</p>
 </body>
