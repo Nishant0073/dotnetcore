@@ -10,10 +10,11 @@ namespace PartialViewExample.Controllers
             return View();
         }
 
-        [Route("/About")]
+        [Route("about")]
         public IActionResult About()
         {
             return View();
         }
     }
 }
+
