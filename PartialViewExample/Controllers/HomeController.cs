@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PartialViewExample.Models;
 
 namespace PartialViewExample.Controllers
 {
@@ -24,6 +25,22 @@ namespace PartialViewExample.Controllers
         public IActionResult About()
         {
             return View();
+        }
+        [HttpGet("programming-languages")]
+        public IActionResult ProgrammingLanguages()
+        {
+            ListModel listModel = new ListModel()
+            {
+                Title = "Programming Languages",
+                ListItems = new List<string> {
+                    "C++",
+                    "C#",
+                    "Java",
+                    "GO"
+                }
+            };
+            return PartialView("_ListPartialView", listModel);
+
         }
     }
 }
