@@ -30,8 +30,7 @@ namespace ViewComponentExample.ViewComponents
                 }
 
             };
-            ViewData["Grid"] = grid;
-            return View("Sample");
+            return View("Sample",grid);
         }
     }
 }
