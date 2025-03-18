@@ -4,31 +4,7 @@
 
 <h1> Home Page</h1>
 
-@{
-    PersonGrid grid = new PersonGrid()
-            {
-                Title = "Employees",
-                Persons = new List<Person>()
-                {
-                    new Person
-                    {
-                        PersonName = "Shyam",
-                        JobTitle = "Manager"
-                    },
-                    new Person
-                    {
-                        PersonName = "Ram",
-                        JobTitle = "CEO"
-                    },
-                    new Person
-                    {
-                        PersonName = "Krishna",
-                        JobTitle = "Ass. Manager"
-                    },
-                }
+<button class="button button-blue-back" id="friendlist_button">Get Friends</button>
+<div class="friends_list"></div>
 
-            };
-}
-@await Component.InvokeAsync("Grid", new {
-    grid = grid,
-})
+<script src="~/friends.js"></script>
