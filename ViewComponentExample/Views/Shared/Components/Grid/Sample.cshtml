@@ -5,22 +5,22 @@
 }
 
 <div class="box">
-    <h3>Grid</h3>
+    <h3>@ViewBag.Grid.Title</h3>
     <table class="table w-100">
         <thead>
             <tr>
-                <th>Sr. No</th>
+                <th>Name</th>
+                <th>Role</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>One</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Two</td>
-            </tr>
+            @foreach (Person person in ViewBag.Grid.Persons)
+            {
+                <tr>
+                    <td>@person.PersonName</td>
+                    <td>@person.JobTitle</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
