@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using CitiesService;
+﻿using CitiesServiceContract;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ServiceExample.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly MyCitiesService citiesService;
+        private readonly ICitiesService citiesService;
         public HomeController()
         {
-            citiesService = new MyCitiesService();
+            citiesService = null;
         }
 
         [Route("/")]

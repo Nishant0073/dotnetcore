@@ -1,6 +1,8 @@
-﻿namespace CitiesService
+﻿using CitiesServiceContract;
+
+namespace CitiesService
 {
-    public class MyCitiesService
+    public class MyCitiesService: ICitiesService
     {
         private List<string> cities;
         public MyCitiesService()
