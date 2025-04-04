@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet" />
+    <link href="~/StyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="page-content">
+            <div class="margin-auto">
+                <div class="flex" id="top-bar-div">
+                    <div class="flex-1" id="app-title-div">
+                        <h1 class="app-title" >
+                            <i class="fa-solid fa-money-bill"></i>
+                            Stock
+                        </h1>
+
+                    </div>
+                    <div class="flex-1">
+                        Login
+                    </div>
+                </div>
+                       
+            </div>
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
