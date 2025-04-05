@@ -9,9 +9,16 @@ using Services;
 
 namespace CRUDTest
 {
+    /// <summary>
+    /// Contains unit tests for the <see cref="CountryService"/> class.
+    /// </summary>
     public class CountryServiceTest
     {
-        ICountryService countryService;
+        private readonly ICountryService countryService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CountryServiceTest"/> class.
+        /// </summary>
         public CountryServiceTest()
         {
             countryService = new CountryService();
@@ -19,7 +26,9 @@ namespace CRUDTest
 
         #region AddCountry
 
-        // CountryRequestAdd is null then should throw ArgumentNullException
+        /// <summary>
+        /// Tests that <see cref="CountryService.AddCountry(CountryAddRequest)"/> throws <see cref="ArgumentNullException"/> when the request is null.
+        /// </summary>
         [Fact]
         public void AddCountry_NullRequest()
         {
@@ -29,7 +38,10 @@ namespace CRUDTest
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => countryService.AddCountry(countryRequestAdd));
         }
-        // CountryRequestAdd.CountryName is null then should throw ArgumentException
+
+        /// <summary>
+        /// Tests that <see cref="CountryService.AddCountry(CountryAddRequest)"/> throws <see cref="ArgumentException"/> when the country name is null.
+        /// </summary>
         [Fact]
         public void AddCountry_NullCountryName()
         {
@@ -38,10 +50,14 @@ namespace CRUDTest
             {
                 CountryName = null
             };
+
             // Act & Assert
             Assert.Throws<ArgumentException>(() => countryService.AddCountry(countryRequestAdd));
         }
-        // CountryRequestAdd.CountryName is duplicate then should throw ArgumentException
+
+        /// <summary>
+        /// Tests that <see cref="CountryService.AddCountry(CountryAddRequest)"/> throws <see cref="ArgumentException"/> when the country name is a duplicate.
+        /// </summary>
         [Fact]
         public void AddCountry_DuplicateCountryName()
         {
@@ -55,10 +71,14 @@ namespace CRUDTest
                 CountryName = "USA"
             };
             countryService.AddCountry(countryRequestAdd1);
+
             // Act & Assert
             Assert.Throws<ArgumentException>(() => countryService.AddCountry(countryRequestAdd2));
         }
-        // CountryRequestAdd is valid then it should add the country and return the country response
+
+        /// <summary>
+        /// Tests that <see cref="CountryService.AddCountry(CountryAddRequest)"/> adds a valid country and returns the expected response.
+        /// </summary>
         [Fact]
         public void AddCountry_ValidRequest()
         {
@@ -77,57 +97,102 @@ namespace CRUDTest
             Assert.Equal("INDIA", response.CountryName);
             Assert.Contains(response, _get_allcountries_response);
         }
+
         #endregion
 
         #region GetAllCountries
+
+        /// <summary>
+        /// Tests that <see cref="CountryService.GetAllCountries"/> returns an empty list when no countries are added.
+        /// </summary>
         [Fact]
         public void GetAllCountries_EmptyList()
         {
-            //Act
+            // Act
             var response = countryService.GetAllCountries();
-            //Assert
+
+            // Assert
             Assert.Empty(response);
         }
 
+        /// <summary>
+        /// Tests that <see cref="CountryService.GetAllCountries"/> returns the correct list of countries after adding countries.
+        /// </summary>
         [Fact]
         public void GetCountries_AddCounties()
         {
-            //Arrange
+            // Arrange
             List<CountryAddRequest> countries_request_list = new List<CountryAddRequest>
-            {
-                new CountryAddRequest
                 {
-                    CountryName = "RUSSIA"
-                },
-                new CountryAddRequest
-                {
-                    CountryName = "INDIA"
-                },
-                new CountryAddRequest
-                {
-                    CountryName = "ISREL"
-                }
-            };
+                    new CountryAddRequest
+                    {
+                        CountryName = "RUSSIA"
+                    },
+                    new CountryAddRequest
+                    {
+                        CountryName = "INDIA"
+                    },
+                    new CountryAddRequest
+                    {
+                        CountryName = "ISREL"
+                    }
+                };
 
-
-            List<CountryResponse>  countries_list_from_add_countries = new List<CountryResponse>();
+            List<CountryResponse> countries_list_from_add_countries = new List<CountryResponse>();
 
             foreach (var country in countries_request_list)
             {
                 countries_list_from_add_countries.Add(countryService.AddCountry(country));
             }
 
-            //Act
+            // Act
             var actual_getAllCountries_response = countryService.GetAllCountries();
 
-            //Assert
+            // Assert
             foreach (var country in countries_list_from_add_countries)
             {
-                Assert.Contains(country,actual_getAllCountries_response);
+                Assert.Contains(country, actual_getAllCountries_response);
             }
-            
         }
+
         #endregion
 
+        #region GetCountryById
+
+        /// <summary>
+        /// Tests that <see cref="CountryService.GetCountryById(Guid?)"/> returns null when the country ID is null.
+        /// </summary>
+        [Fact]
+        public void GetCountryById_Null()
+        {
+            // Act
+            CountryResponse response = countryService.GetCountryById(null);
+
+            // Assert
+            Assert.Null(response);
+        }
+
+        /// <summary>
+        /// Tests that <see cref="CountryService.GetCountryById(Guid?)"/> returns the correct country when a valid ID is provided.
+        /// </summary>
+        [Fact]
+        public void GetCountryById_ValidId()
+        {
+            // Arrange
+            CountryAddRequest countryRequestAdd = new CountryAddRequest
+            {
+                CountryName = "INDIA"
+            };
+            // Add the country to the service
+            var response = countryService.AddCountry(countryRequestAdd);
+
+            // Act
+            var actual_getCountryById_response = countryService.GetCountryById(response.CountryId);
+
+            // Assert
+            Assert.Equal(response.CountryName, actual_getCountryById_response.CountryName);
+        }
+
+        #endregion
     }
 }

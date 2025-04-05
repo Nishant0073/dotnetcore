@@ -19,5 +19,8 @@ namespace ServiceContracts
         /// </summary>
         /// <returns>A list of <see cref="CountryResponse"/> objects containing information about all countries.</returns>
         List<CountryResponse> GetAllCountries();
+
+
+        CountryResponse? GetCountryById(Guid? countryId);
     }
 }

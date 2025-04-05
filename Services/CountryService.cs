@@ -50,9 +50,29 @@ namespace Services
         #endregion
 
         #region GetAllCountries
+
+        /// <summary>
+        /// Retrieves all countries.
+        /// </summary>
+        /// <returns>A list of <see cref="CountryResponse"/> objects containing information about all countries.</returns>
         public List<CountryResponse> GetAllCountries()
         {
             return _countries.Select(country => country.ToCountryResponse()).ToList();
+        }
+
+        /// <summary>
+        /// Retrieves a country by its unique identifier.
+        /// </summary>
+        /// <param name="countryId">The unique identifier of the country to retrieve.</param>
+        /// <returns>A <see cref="CountryResponse"/> object containing the country's information, or null if the country is not found.</returns>
+        public CountryResponse? GetCountryById(Guid? countryId)
+        {
+            if (countryId == null)
+            {
+                return null;
+            }
+
+            return _countries.FirstOrDefault(country => country.CountryId == countryId)?.ToCountryResponse();
         }
         #endregion
     }
