@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ServiceContracts;
@@ -16,6 +17,7 @@ namespace CRUDTest
             countryService = new CountryService();
         }
 
+        #region AddCountry
 
         // CountryRequestAdd is null then should throw ArgumentNullException
         [Fact]
@@ -65,13 +67,67 @@ namespace CRUDTest
             {
                 CountryName = "INDIA"
             };
+
             // Act
             var response = countryService.AddCountry(countryRequestAdd);
+            var _get_allcountries_response = countryService.GetAllCountries();
+
             // Assert
             Assert.NotNull(response);
             Assert.Equal("INDIA", response.CountryName);
-            Assert.NotNull(response.CountryId);
+            Assert.Contains(response, _get_allcountries_response);
         }
+        #endregion
+
+        #region GetAllCountries
+        [Fact]
+        public void GetAllCountries_EmptyList()
+        {
+            //Act
+            var response = countryService.GetAllCountries();
+            //Assert
+            Assert.Empty(response);
+        }
+
+        [Fact]
+        public void GetCountries_AddCounties()
+        {
+            //Arrange
+            List<CountryAddRequest> countries_request_list = new List<CountryAddRequest>
+            {
+                new CountryAddRequest
+                {
+                    CountryName = "RUSSIA"
+                },
+                new CountryAddRequest
+                {
+                    CountryName = "INDIA"
+                },
+                new CountryAddRequest
+                {
+                    CountryName = "ISREL"
+                }
+            };
+
+
+            List<CountryResponse>  countries_list_from_add_countries = new List<CountryResponse>();
+
+            foreach (var country in countries_request_list)
+            {
+                countries_list_from_add_countries.Add(countryService.AddCountry(country));
+            }
+
+            //Act
+            var actual_getAllCountries_response = countryService.GetAllCountries();
+
+            //Assert
+            foreach (var country in countries_list_from_add_countries)
+            {
+                Assert.Contains(country,actual_getAllCountries_response);
+            }
+            
+        }
+        #endregion
 
     }
 }

@@ -7,7 +7,17 @@ namespace ServiceContracts
     /// </summary>
     public interface ICountryService
     {
-        // Define methods for the service contract here
-        public CountryResponse AddCountry(CountryAddRequest countryAddRequest);
+        /// <summary>
+        /// Adds a new country based on the provided request.
+        /// </summary>
+        /// <param name="countryAddRequest">The request containing the country information to be added.</param>
+        /// <returns>A <see cref="CountryResponse"/> object containing the added country's information.</returns>
+        CountryResponse AddCountry(CountryAddRequest countryAddRequest);
+
+        /// <summary>
+        /// Retrieves all countries.
+        /// </summary>
+        /// <returns>A list of <see cref="CountryResponse"/> objects containing information about all countries.</returns>
+        List<CountryResponse> GetAllCountries();
     }
 }
