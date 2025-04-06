@@ -1,4 +1,5 @@
 ﻿using Entities;
+using ServiceContracts.DTOs;
 
 namespace ServiceContracts
 {

@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ServiceContracts;
+using ServiceContracts.DTOs;
 using Services;
 
 namespace CRUDTest

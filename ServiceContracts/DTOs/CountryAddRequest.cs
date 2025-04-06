@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entities;
 
-namespace ServiceContracts
+namespace ServiceContracts.DTOs
 {
     /// <summary>
     /// Represents a request to add a new country.
@@ -25,7 +25,7 @@ namespace ServiceContracts
         {
             return new Country
             {
-                CountryName = this.CountryName
+                CountryName = CountryName
             };
         }
     }

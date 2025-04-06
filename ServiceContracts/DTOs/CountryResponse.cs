@@ -1,6 +1,6 @@
 ﻿using Entities;
 
-namespace ServiceContracts
+namespace ServiceContracts.DTOs
 {
     /// <summary>
     /// Represents a response containing country information.

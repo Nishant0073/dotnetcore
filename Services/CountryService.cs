@@ -1,6 +1,7 @@
 ﻿using ServiceContracts;
 using Entities;
 using System.Runtime.CompilerServices;
+using ServiceContracts.DTOs;
 namespace Services
 {
     /// <summary>
