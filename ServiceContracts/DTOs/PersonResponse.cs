@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServiceContracts
+namespace ServiceContracts.DTOs
 {
     /// <summary>
     /// Represents a response containing person information.
@@ -44,6 +44,11 @@ namespace ServiceContracts
         public Guid CountryId { get; set; }
 
         /// <summary>
+        /// Get country name based on CountryId
+        /// </summary>
+        public string? Country { get; set; }
+
+        /// <summary>
         /// Gets or sets the address of the person.
         /// </summary>
         public string? Address { get; set; }
@@ -73,15 +78,15 @@ namespace ServiceContracts
             }
             PersonResponse personResponse = (PersonResponse)obj;
 
-            return personResponse.PersonId == this.PersonId
-                && personResponse.PersonName == this.PersonName
-                && personResponse.Email == this.Email
-                && personResponse.DateOfBirth == this.DateOfBirth
-                && personResponse.Gender == this.Gender
-                && personResponse.CountryId == this.CountryId
-                && personResponse.Address == this.Address
-                && personResponse.RecieveNewsLetter == this.RecieveNewsLetter
-                && personResponse.Age == this.Age;
+            return personResponse.PersonId == PersonId
+                && personResponse.PersonName == PersonName
+                && personResponse.Email == Email
+                && personResponse.DateOfBirth == DateOfBirth
+                && personResponse.Gender == Gender
+                && personResponse.CountryId == CountryId
+                && personResponse.Address == Address
+                && personResponse.RecieveNewsLetter == RecieveNewsLetter
+                && personResponse.Age == Age;
         }
 
         /// <summary>
@@ -104,7 +109,7 @@ namespace ServiceContracts
         /// </summary>
         /// <param name="person">The person to convert.</param>
         /// <returns>A <see cref="PersonResponse"/> object containing the person's information.</returns>
-        public static PersonResponse ToPerson(this Person person)
+        public static PersonResponse ToPersonResponse(this Person person)
         {
             return new PersonResponse()
             {

@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace ServiceContracts
+namespace ServiceContracts.DTOs
 {
     /// <summary>
     /// Represents a request to add a new person.
@@ -16,11 +17,14 @@ namespace ServiceContracts
         /// <summary>
         /// Gets or sets the name of the person to be added.
         /// </summary>
+        [Required(ErrorMessage = "Person name is required.")]
         public string? PersonName { get; set; }
 
         /// <summary>
         /// Gets or sets the email of the person to be added.
         /// </summary>
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email format.")]
         public string? Email { get; set; }
 
         /// <summary>
@@ -56,13 +60,13 @@ namespace ServiceContracts
         {
             Person person = new Person
             {
-                PersonName = this.PersonName,
-                Email = this.Email,
-                DateOfBirth = this.DateOfBirth,
-                Gender = this.Gender?.ToString(),
-                CountryId = this.CountryId,
-                Address = this.Address,
-                RecieveNewsLetter = this.RecieveNewsLetter
+                PersonName = PersonName,
+                Email = Email,
+                DateOfBirth = DateOfBirth,
+                Gender = Gender?.ToString(),
+                CountryId = CountryId,
+                Address = Address,
+                RecieveNewsLetter = RecieveNewsLetter
             };
             return person;
         }
