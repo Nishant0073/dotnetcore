@@ -164,59 +164,8 @@ namespace CRUDTest
         public void GetAllPerson_validRequest()
         {
             // Arrange
-            CountryAddRequest countryAddRequest1 = new CountryAddRequest
-            {
-                CountryName = "USA"
-            };
 
-            CountryAddRequest countryAddRequest2 = new CountryAddRequest
-            {
-                CountryName = "Canada"
-            };
-
-            CountryResponse country_from_AddCountry1 = _countryService.AddCountry(countryAddRequest1);
-            CountryResponse country_from_AddCountry2 = _countryService.AddCountry(countryAddRequest2);
-
-            List<PersonAddRequest> personAddRequests = new List<PersonAddRequest>
-                {
-                    new PersonAddRequest
-                    {
-                        PersonName = "Alice Smith",
-                        Email = "alice.smith@example.com",
-                        DateOfBirth = new DateTime(1990, 5, 15),
-                        Gender = ServiceContracts.Enum.GenderOptions.Female,
-                        CountryId = country_from_AddCountry1.CountryId,
-                        Address = "456 Elm St",
-                        RecieveNewsLetter = true
-                    },
-                    new PersonAddRequest
-                    {
-                        PersonName = "Bob Johnson",
-                        Email = "bob.johnson@example.com",
-                        DateOfBirth = new DateTime(1985, 8, 20),
-                        Gender = ServiceContracts.Enum.GenderOptions.Male,
-                        CountryId = country_from_AddCountry2.CountryId,
-                        Address = "789 Maple St",
-                        RecieveNewsLetter = false
-                    },
-                    new PersonAddRequest
-                    {
-                        PersonName = "Charlie Brown",
-                        Email = "charlie.brown@example.com",
-                        DateOfBirth = new DateTime(2000, 12, 25),
-                        Gender = ServiceContracts.Enum.GenderOptions.Other,
-                        CountryId = country_from_AddCountry1.CountryId,
-                        Address = "101 Pine St",
-                        RecieveNewsLetter = true
-                    },
-                };
-
-            List<PersonResponse> personResponses_from_AddPerson = new List<PersonResponse>();
-            foreach (PersonAddRequest personAddRequest in personAddRequests)
-            {
-                PersonResponse personResponse_from_AddPerson = _personService.AddPerson(personAddRequest);
-                personResponses_from_AddPerson.Add(personResponse_from_AddPerson);
-            }
+            List<PersonResponse> personResponses_from_AddPerson = GetAddedPersonsToAddPersons();
 
             _testOutputHelper.WriteLine("Person Responses from AddPerson:Expected::");
             foreach (PersonResponse personResponse in personResponses_from_AddPerson)
@@ -238,6 +187,116 @@ namespace CRUDTest
             {
                 Assert.Contains(person, personResponses_from_GetAllPersons);
             }
+        }
+
+        #endregion
+
+        #region GetFilteredPersons
+
+        /// <summary>
+        /// Tests that <see cref="PersonService.GetFilteredPersons(string?, string?)"/> returns all persons when no filter is applied.
+        /// </summary>
+        [Fact]
+        public void GetFilterdPerson_AllPersons()
+        {
+            // Arrange
+            List<PersonResponse> personResponses_from_AddPerson = GetAddedPersonsToAddPersons();
+
+            // Act
+            var filteredPersons = _personService.GetFilteredPersons("", "");
+            // Assert
+            foreach (var person in personResponses_from_AddPerson)
+            {
+                Assert.Contains(person, filteredPersons);
+            }
+        }
+
+        /// <summary>
+        /// Tests that <see cref="PersonService.GetFilteredPersons(string?, string?)"/> returns the correct persons when filtered by name.
+        /// </summary>
+        [Fact]
+        public void GetFilterdPerson_ByName()
+        {
+            // Arrange
+            List<PersonResponse> personResponses_from_AddPerson = GetAddedPersonsToAddPersons();
+            // Act
+            List<PersonResponse> filteredPersons = _personService.GetFilteredPersons(nameof(Person.PersonName), "th");
+            // Assert
+
+            foreach (PersonResponse person in personResponses_from_AddPerson)
+            {
+                if (person.PersonName.Contains("th"))
+                {
+                    Assert.Contains(person, filteredPersons);
+                }
+            }
+        }
+        #endregion
+
+        #region Utility Methods
+
+        /// <summary>
+        /// Adds multiple persons to the service and returns the added persons.
+        /// </summary>
+        /// <returns>A list of <see cref="PersonResponse"/> objects representing the added persons.</returns>
+        public List<PersonResponse> GetAddedPersonsToAddPersons()
+        {
+            // Arrange
+            CountryAddRequest countryAddRequest1 = new CountryAddRequest
+            {
+                CountryName = "USA"
+            };
+
+            CountryAddRequest countryAddRequest2 = new CountryAddRequest
+            {
+                CountryName = "Canada"
+            };
+
+            CountryResponse country_from_AddCountry1 = _countryService.AddCountry(countryAddRequest1);
+            CountryResponse country_from_AddCountry2 = _countryService.AddCountry(countryAddRequest2);
+
+            List<PersonAddRequest> personAddRequests = new List<PersonAddRequest>
+                    {
+                        new PersonAddRequest
+                        {
+                            PersonName = "Alice Smith",
+                            Email = "alice.smith@example.com",
+                            DateOfBirth = new DateTime(1990, 5, 15),
+                            Gender = ServiceContracts.Enum.GenderOptions.Female,
+                            CountryId = country_from_AddCountry1.CountryId,
+                            Address = "456 Elm St",
+                            RecieveNewsLetter = true
+                        },
+                        new PersonAddRequest
+                        {
+                            PersonName = "Bob Jothnson",
+                            Email = "bob.johnson@example.com",
+                            DateOfBirth = new DateTime(1985, 8, 20),
+                            Gender = ServiceContracts.Enum.GenderOptions.Male,
+                            CountryId = country_from_AddCountry2.CountryId,
+                            Address = "789 Maple St",
+                            RecieveNewsLetter = false
+                        },
+                        new PersonAddRequest
+                        {
+                            PersonName = "Charlie Brown",
+                            Email = "charlie.brown@example.com",
+                            DateOfBirth = new DateTime(2000, 12, 25),
+                            Gender = ServiceContracts.Enum.GenderOptions.Other,
+                            CountryId = country_from_AddCountry1.CountryId,
+                            Address = "101 Pine St",
+                            RecieveNewsLetter = true
+                        },
+                    };
+
+            List<PersonResponse> personResponses_from_AddPerson = new List<PersonResponse>();
+
+            foreach (PersonAddRequest personAddRequest in personAddRequests)
+            {
+                PersonResponse personResponse_from_AddPerson = _personService.AddPerson(personAddRequest);
+                personResponses_from_AddPerson.Add(personResponse_from_AddPerson);
+            }
+            return personResponses_from_AddPerson;
         }
 
         #endregion

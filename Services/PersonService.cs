@@ -8,6 +8,7 @@ using ServiceContracts;
 using Entities;
 using System.ComponentModel.DataAnnotations;
 using Services.Helpers;
+using System.Reflection;
 
 namespace Services
 {
@@ -33,7 +34,7 @@ namespace Services
         /// </summary>
         /// <param name="person">The person to convert.</param>
         /// <returns>A <see cref="PersonResponse"/> object containing the person's information.</returns>
-        public PersonResponse ConvertPersonToPersonResponse(Person person)
+        public PersonResponse ConvertPersonToPersonResponse(Person? person)
         {
             PersonResponse personResponse = person.ToPersonResponse();
             personResponse.Country = _countryService.GetCountryById(personResponse.CountryId)?.CountryName;
@@ -94,6 +95,40 @@ namespace Services
                 return null;
 
             return ConvertPersonToPersonResponse(person);
+        }
+
+        #endregion
+
+        #region GetFilteredPersons
+
+        /// <summary>
+        /// Retrieves a list of persons filtered by a specified property and search string.
+        /// </summary>
+        /// <param name="SearchBy">The property to filter by (e.g., "PersonName").</param>
+        /// <param name="SearchString">The search string to filter the property by.</param>
+        /// <returns>A list of <see cref="PersonResponse"/> objects that match the filter criteria.</returns>
+        public List<PersonResponse> GetFilteredPersons(string? SearchBy, string? SearchString)
+        {
+            List<PersonResponse> all_persons = GetAllPersons();
+
+            if (SearchBy == null || SearchString == null)
+                return all_persons;
+
+            List<PersonResponse> filteredPersons = all_persons;
+
+            Type personType = typeof(Person);
+            foreach (PropertyInfo property in personType.GetProperties())
+            {
+                if (property.Name.Equals(SearchBy, StringComparison.OrdinalIgnoreCase))
+                {
+                    filteredPersons = _persons
+                        .Where(p => property.GetValue(p)?.ToString()?.Contains(SearchString, StringComparison.OrdinalIgnoreCase) == true)
+                        .Select(p => ConvertPersonToPersonResponse(p))
+                        .ToList();
+                    break;
+                }
+            }
+            return filteredPersons;
         }
 
         #endregion
