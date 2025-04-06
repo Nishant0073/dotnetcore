@@ -18,8 +18,8 @@ namespace Services
 
         public PersonService()
         {
-           _persons = new List<Person>();
-           _countryService = new CountryService(); 
+            _persons = new List<Person>();
+            _countryService = new CountryService();
         }
 
         public PersonResponse ConvertPersonToPersonResponse(Person person)
@@ -29,11 +29,13 @@ namespace Services
             return personResponse;
 
         }
+
+        #region AddPerson
         public PersonResponse AddPerson(PersonAddRequest request)
         {
-            if(request==null)
+            if (request == null)
                 throw new ArgumentNullException(nameof(request));
-          
+
             ValidationHelpers.ModelValidation(request);
 
 
@@ -44,11 +46,30 @@ namespace Services
             return ConvertPersonToPersonResponse(person);
         }
 
+        #endregion
+
+        #region GetAllPerson
+
         public List<PersonResponse> GetAllPersons()
         {
             return _persons.Select(p => p.ToPersonResponse()).ToList();
         }
+        #endregion
 
+        #region GetPersonById
+        public PersonResponse? GetPersonById(Guid? personId)
+        {
+            if (personId == null)
+                return null;
+
+            Person? person = _persons.FirstOrDefault(p => p.PersonId == personId);
+            if (person == null)
+                return null;
+
+            return ConvertPersonToPersonResponse(person);
+        }
+
+        #endregion
     }
 }
 

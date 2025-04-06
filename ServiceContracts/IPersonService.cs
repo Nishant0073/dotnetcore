@@ -11,5 +11,6 @@ namespace ServiceContracts
     {
         PersonResponse AddPerson(PersonAddRequest request);
         List<PersonResponse> GetAllPersons();
+        PersonResponse? GetPersonById(Guid? personId);
     }
 }
