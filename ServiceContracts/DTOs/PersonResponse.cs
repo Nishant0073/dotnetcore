@@ -97,6 +97,11 @@ namespace ServiceContracts.DTOs
         {
             return base.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return $"PersonId: {PersonId}, PersonName: {PersonName}, Email: {Email}, DateOfBirth: {DateOfBirth}, Gender: {Gender}, CountryId: {CountryId}, Country: {Country}, Address: {Address}, RecieveNewsLetter: {RecieveNewsLetter}, Age: {Age}";
+        }
     }
 
     /// <summary>

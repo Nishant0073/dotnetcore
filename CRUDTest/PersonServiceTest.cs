@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit.Abstractions;
 
 namespace CRUDTest
 {
@@ -14,10 +15,12 @@ namespace CRUDTest
     {
         PersonService _personService;
         CountryService _countryService;
-        public PersonServiceTest()
+        ITestOutputHelper _testOutputHelper;
+        public PersonServiceTest(ITestOutputHelper testOutputHelper)
         {
             _personService = new PersonService();
             _countryService = new CountryService();
+            _testOutputHelper = testOutputHelper;
 
         }
         #region AddPerson
@@ -127,6 +130,8 @@ namespace CRUDTest
         [Fact]
         public void GetAllPerson_validRequest()
         {
+
+            //Arrange
             CountryAddRequest countryAddRequest1 = new CountryAddRequest
             {
                 CountryName = "USA"
@@ -179,8 +184,23 @@ namespace CRUDTest
                 PersonResponse personResponse_from_AddPerson = _personService.AddPerson(personAddRequest);
                 personResponses_from_AddPerson.Add(personResponse_from_AddPerson);
             }
+
+            _testOutputHelper.WriteLine("Person Responses from AddPerson:Expected::");
+            foreach (PersonResponse personResponse in personResponses_from_AddPerson)
+            {
+                _testOutputHelper.WriteLine(personResponse.ToString());
+            }
+
+            // Act
             List<PersonResponse> personResponses_from_GetAllPersons = _personService.GetAllPersons();
 
+            _testOutputHelper.WriteLine("Person Responses from GetAllPersons:Actual::");
+            foreach (PersonResponse personResponse in personResponses_from_GetAllPersons)
+            {
+                _testOutputHelper.WriteLine(personResponse.ToString());
+            }
+
+            // Assert
             foreach (var person in personResponses_from_AddPerson)
             {
                 Assert.Contains(person, personResponses_from_GetAllPersons);
