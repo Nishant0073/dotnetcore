@@ -16,5 +16,7 @@ namespace ServiceContracts
         List<PersonResponse> GetFilteredPersons(string? SearchBy, string? SearchString);
         List<PersonResponse> GetSortedPerson(List<PersonResponse> persons, string? SortBy,SortOrderEnum SortOrder);
         PersonResponse UpdatePerson(PersonUpdateRequest request);
+
+        Boolean DeletePerson(Guid? personId);
     }
 }

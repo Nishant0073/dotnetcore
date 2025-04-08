@@ -374,6 +374,62 @@ namespace CRUDTest
         }
         #endregion
 
+        #region DeletePerson
+        [Fact]
+        public void DeletePerson_NullId()
+        {
+            //Arrange
+            Guid? personId = null;
+            //Act & Assert
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                _personService.DeletePerson(personId);
+            });
+        }
+
+        [Fact]
+        public void DeletePerson_InvalidId()
+        {
+            //Arrange
+            Guid personId = Guid.NewGuid();
+
+            //Act
+            bool isDeleted = _personService.DeletePerson(personId);
+
+            //Assert
+            Assert.False(isDeleted);
+        }
+
+        public void DeletePerson_ValidPerson()
+        {
+            //Arrange
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "INDIA"
+            };
+            CountryResponse country = _countryService.AddCountry(countryAddRequest);
+
+            PersonAddRequest personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "Alice Smith",
+                Email = "alice.smith@example.com",
+                DateOfBirth = new DateTime(1990, 5, 15),
+                Gender = GenderOptions.Female,
+                CountryId = country.CountryId,
+                Address = "456 Elm St",
+                RecieveNewsLetter = true
+            };
+
+            PersonResponse personResponse_from_AddPerson = _personService.AddPerson(personAddRequest);
+
+            //Act
+            bool isDeleted = _personService.DeletePerson(personResponse_from_AddPerson.PersonId);
+            
+            //Assert
+            Assert.True(isDeleted);
+
+        }
+        #endregion
         #region Utility Methods
 
         /// <summary>

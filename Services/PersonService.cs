@@ -154,6 +154,10 @@ namespace Services
             return sortedPersons;
         }
 
+        #endregion
+
+        #region UpdatePerson
+
         public PersonResponse UpdatePerson(PersonUpdateRequest request)
         {
             if(request==null)
@@ -175,7 +179,24 @@ namespace Services
             return person.ToPersonResponse();
         }
 
+        public bool DeletePerson(Guid? personId)
+        {
+            if(personId == null)
+                throw new ArgumentNullException(nameof(personId));
+
+            Person person = _persons.FirstOrDefault(p => p.PersonId == personId);
+
+            if (person == null)
+                return false;
+
+            _persons.RemoveAll(p => p.PersonId == personId);
+            return true;
+        }
+
         #endregion
+
+
+
     }
 }
 
