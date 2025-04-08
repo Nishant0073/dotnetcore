@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using ServiceContracts.DTOs;
 using Services;
 using System;
@@ -229,6 +230,40 @@ namespace CRUDTest
                 {
                     Assert.Contains(person, filteredPersons);
                 }
+            }
+        }
+        #endregion
+
+
+        #region GetSortedPersons
+        /// <summary>
+        /// Get Sorted Person by their property in ascending order or descending order.
+        /// </summary>
+        [Fact]
+        public void GetSortedPerson()
+        {
+            // Arrange
+            List<PersonResponse> personResponses_from_AddPerson = GetAddedPersonsToAddPersons();
+            // Act
+            List<PersonResponse> sortedPersons = _personService.GetSortedPerson(personResponses_from_AddPerson, nameof(Person.PersonName), ServiceContracts.Enum.SortOrderEnum.DSC);
+
+            personResponses_from_AddPerson =  personResponses_from_AddPerson.OrderByDescending(x => x.PersonName).ToList();
+
+            _testOutputHelper.WriteLine("Sorted Persons:Expected::");
+            foreach (PersonResponse personResponse in personResponses_from_AddPerson)
+            {
+                _testOutputHelper.WriteLine(personResponse.ToString());
+            }
+
+            _testOutputHelper.WriteLine("Sorted Persons:Actual::");
+            foreach (PersonResponse personResponse in sortedPersons)
+            {
+                _testOutputHelper.WriteLine(personResponse.ToString());
+            }
+            // Assert
+            for (int i = 0; i < sortedPersons.Count; i++)
+            {
+                Assert.Equal(sortedPersons[i], personResponses_from_AddPerson[i]);
             }
         }
         #endregion

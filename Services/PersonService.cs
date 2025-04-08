@@ -9,6 +9,7 @@ using Entities;
 using System.ComponentModel.DataAnnotations;
 using Services.Helpers;
 using System.Reflection;
+using ServiceContracts.Enum;
 
 namespace Services
 {
@@ -129,6 +130,28 @@ namespace Services
                 }
             }
             return filteredPersons;
+        }
+
+        public List<PersonResponse> GetSortedPerson(List<PersonResponse> persons, string? SortBy, SortOrderEnum SortOrder)
+        {
+            Type personResponseType = typeof(PersonResponse);
+            List<PersonResponse> sortedPersons = persons;
+            foreach (PropertyInfo property in personResponseType.GetProperties())
+            {
+                if(property.Name.Equals(SortBy, StringComparison.OrdinalIgnoreCase))
+                {
+                    if(SortOrder == SortOrderEnum.ASC)
+                    {
+                        sortedPersons = persons.OrderBy(p => property.GetValue(p)).ToList();
+                    }
+                    else if (SortOrder == SortOrderEnum.DSC)
+                    {
+                        sortedPersons = persons.OrderByDescending(p => property.GetValue(p)).ToList();
+                    }
+                    break;
+                }
+            }
+            return sortedPersons;
         }
 
         #endregion
