@@ -1,5 +1,4 @@
 ﻿using Entities;
-using ServiceContracts.Enum;
 using ServiceContracts.Enums;
 using System;
 using System.Collections.Generic;
@@ -113,7 +112,7 @@ namespace ServiceContracts.DTOs
                 PersonName = PersonName,
                 Email = Email,
                 DateOfBirth = DateOfBirth,
-                Gender = (GenderOptions) Enum.Parse(typeof(GenderOptions), Gender, true),
+                Gender = (GenderOptions) Enum.Parse(typeof(GenderOptions), this.Gender, true),
                 CountryId = CountryId,
                 Address = Address,
                 RecieveNewsLetter = RecieveNewsLetter
@@ -140,6 +139,7 @@ namespace ServiceContracts.DTOs
                 Email = person.Email,
                 DateOfBirth = person.DateOfBirth,
                 CountryId = person.CountryId,
+                Gender = person.Gender.ToString(),
                 Address = person.Address,
                 RecieveNewsLetter = person.RecieveNewsLetter,
                 Age = person.DateOfBirth != null ? DateTime.Now.Year - person.DateOfBirth.Value.Year : null

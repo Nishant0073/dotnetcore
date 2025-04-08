@@ -1,7 +1,8 @@
 ﻿using Entities;
-using ServiceContracts.Enum;
+using ServiceContracts.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace ServiceContracts.DTOs
         /// <summary>
         /// Gets or sets the name of the person.
         /// </summary>
+        [Required(ErrorMessage = "Person name is required.")]
         public string? PersonName { get; set; }
 
         /// <summary>

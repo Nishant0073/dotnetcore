@@ -9,7 +9,7 @@ using Entities;
 using System.ComponentModel.DataAnnotations;
 using Services.Helpers;
 using System.Reflection;
-using ServiceContracts.Enum;
+using ServiceContracts.Enums;
 
 namespace Services
 {
@@ -152,6 +152,27 @@ namespace Services
                 }
             }
             return sortedPersons;
+        }
+
+        public PersonResponse UpdatePerson(PersonUpdateRequest request)
+        {
+            if(request==null)
+                throw new ArgumentNullException(nameof(request));
+
+            ValidationHelpers.ModelValidation(request);
+
+            Person? person = _persons.FirstOrDefault(p => p.PersonId == request.PersonId);
+            if(person == null)
+                throw new ArgumentException("Invalid PersonId");
+            person.PersonName = request.PersonName;
+            person.Email = request.Email;
+            person.DateOfBirth = request.DateOfBirth;
+            person.Address = request.Address;
+            person.Gender = request.Gender.ToString();
+            person.CountryId = request.CountryId;
+            person.RecieveNewsLetter = request.RecieveNewsLetter;
+
+            return person.ToPersonResponse();
         }
 
         #endregion

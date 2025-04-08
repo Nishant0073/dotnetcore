@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit.Abstractions;
+using ServiceContracts.Enums;
 
 namespace CRUDTest
 {
@@ -75,7 +76,7 @@ namespace CRUDTest
                 PersonName = "John Doe",
                 Email = "john@mail.com",
                 DateOfBirth = new DateTime(2002, 1, 1),
-                Gender = ServiceContracts.Enum.GenderOptions.Male,
+                Gender = GenderOptions.Male,
                 CountryId = Guid.NewGuid(),
                 Address = "123 Main St",
                 RecieveNewsLetter = true
@@ -126,7 +127,7 @@ namespace CRUDTest
                 PersonName = "John Doe",
                 Email = "john@mail.com",
                 DateOfBirth = new DateTime(2002, 1, 1),
-                Gender = ServiceContracts.Enum.GenderOptions.Male,
+                Gender = GenderOptions.Male,
                 CountryId = country_from_AddCountry.CountryId,
                 Address = "123 Main St",
                 RecieveNewsLetter = true
@@ -245,9 +246,9 @@ namespace CRUDTest
             // Arrange
             List<PersonResponse> personResponses_from_AddPerson = GetAddedPersonsToAddPersons();
             // Act
-            List<PersonResponse> sortedPersons = _personService.GetSortedPerson(personResponses_from_AddPerson, nameof(Person.PersonName), ServiceContracts.Enum.SortOrderEnum.DSC);
+            List<PersonResponse> sortedPersons = _personService.GetSortedPerson(personResponses_from_AddPerson, nameof(Person.PersonName), SortOrderEnum.DSC);
 
-            personResponses_from_AddPerson =  personResponses_from_AddPerson.OrderByDescending(x => x.PersonName).ToList();
+            personResponses_from_AddPerson = personResponses_from_AddPerson.OrderByDescending(x => x.PersonName).ToList();
 
             _testOutputHelper.WriteLine("Sorted Persons:Expected::");
             foreach (PersonResponse personResponse in personResponses_from_AddPerson)
@@ -265,6 +266,111 @@ namespace CRUDTest
             {
                 Assert.Equal(sortedPersons[i], personResponses_from_AddPerson[i]);
             }
+        }
+        #endregion
+
+        #region UpdatePerson
+        [Fact]
+        public void UpdatePerson_NullRequest()
+        {
+            //Arrange
+            PersonUpdateRequest personUpdateRequest = null;
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                _personService.UpdatePerson(personUpdateRequest);
+            });
+
+        }
+
+        [Fact]
+        public void UpdatePerson_NullName()
+        {
+            //Arrange
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "INDIA"
+            };
+            CountryResponse country = _countryService.AddCountry(countryAddRequest);
+
+            PersonAddRequest personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "Alice Smith",
+                Email = "alice.smith@example.com",
+                DateOfBirth = new DateTime(1990, 5, 15),
+                Gender = GenderOptions.Female,
+                CountryId = country.CountryId,
+                Address = "456 Elm St",
+                RecieveNewsLetter = true
+            };
+
+            PersonResponse personResponse_from_AddPerson = _personService.AddPerson(personAddRequest);
+            PersonUpdateRequest personUpdateRequest = personResponse_from_AddPerson.ToPersonUpdateRequest();
+            personUpdateRequest.PersonName = null;
+
+            //Act & Assert
+            Assert.Throws<ArgumentException>(() =>
+            {
+                _personService.UpdatePerson(personUpdateRequest);
+            });
+
+        }
+
+        [Fact]
+        public void UpdatePerson_InvalidPersonId()
+        {
+            //Arrange
+            PersonUpdateRequest personUpdateRequest = new PersonUpdateRequest()
+            {
+                PersonId = Guid.NewGuid(),
+            };
+
+            //Act & Assert
+            Assert.Throws<ArgumentException>(() =>
+            {
+                _personService.UpdatePerson(personUpdateRequest);
+            });
+
+        }
+
+
+        [Fact]
+        public void UpdatePerson_ValidRequest()
+        {
+            //Arrange
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "INDIA"
+            };
+            CountryResponse country = _countryService.AddCountry(countryAddRequest);
+
+            PersonAddRequest personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "Alice Smith",
+                Email = "alice.smith@example.com",
+                DateOfBirth = new DateTime(1990, 5, 15),
+                Gender = GenderOptions.Female,
+                CountryId = country.CountryId,
+                Address = "456 Elm St",
+                RecieveNewsLetter = true
+            };
+
+            PersonResponse personResponse_from_AddPerson = _personService.AddPerson(personAddRequest);
+            PersonUpdateRequest personUpdateRequest = personResponse_from_AddPerson.ToPersonUpdateRequest();
+            personUpdateRequest.PersonName = "Nishant";
+            personUpdateRequest.Email = "nishant@example.com";
+            personUpdateRequest.DateOfBirth = new DateTime(1995, 1, 1);
+
+            //Act
+            PersonResponse personResponse_from_updatePerson = _personService.UpdatePerson(personUpdateRequest);
+            PersonResponse personResponse_from_GetPersonById = _personService.GetPersonById(personResponse_from_updatePerson.PersonId);
+
+            //Assert
+            Assert.Equal(personResponse_from_updatePerson, personResponse_from_GetPersonById);
+
+
+
         }
         #endregion
 
@@ -297,7 +403,7 @@ namespace CRUDTest
                             PersonName = "Alice Smith",
                             Email = "alice.smith@example.com",
                             DateOfBirth = new DateTime(1990, 5, 15),
-                            Gender = ServiceContracts.Enum.GenderOptions.Female,
+                            Gender = GenderOptions.Female,
                             CountryId = country_from_AddCountry1.CountryId,
                             Address = "456 Elm St",
                             RecieveNewsLetter = true
@@ -307,7 +413,7 @@ namespace CRUDTest
                             PersonName = "Bob Jothnson",
                             Email = "bob.johnson@example.com",
                             DateOfBirth = new DateTime(1985, 8, 20),
-                            Gender = ServiceContracts.Enum.GenderOptions.Male,
+                            Gender = GenderOptions.Male,
                             CountryId = country_from_AddCountry2.CountryId,
                             Address = "789 Maple St",
                             RecieveNewsLetter = false
@@ -317,7 +423,7 @@ namespace CRUDTest
                             PersonName = "Charlie Brown",
                             Email = "charlie.brown@example.com",
                             DateOfBirth = new DateTime(2000, 12, 25),
-                            Gender = ServiceContracts.Enum.GenderOptions.Other,
+                            Gender = GenderOptions.Other,
                             CountryId = country_from_AddCountry1.CountryId,
                             Address = "101 Pine St",
                             RecieveNewsLetter = true
