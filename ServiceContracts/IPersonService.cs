@@ -1,5 +1,6 @@
 ﻿using ServiceContracts.DTOs;
 using ServiceContracts.Enum;
+using ServiceContracts.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
