@@ -2,15 +2,14 @@
 
 namespace Entities
 {
-    /// <summary>
-    /// Domain Model for Country
-    /// </summary>
-    public class Country
-    {
-        [Key]
-        public Guid CountryID { get; set; }
+  /// <summary>
+  /// Domain Model for Country
+  /// </summary>
+  public class Country
+  {
+    [Key]
+    public Guid CountryID { get; set; }
 
-        [StringLength(100)]
-        public string? CountryName { get; set; }
-    }
+    public string? CountryName { get; set; }
+  }
 }

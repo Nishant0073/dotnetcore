@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Entities.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Intital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace Entities.Migrations
                 columns: table => new
                 {
                     CountryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CountryName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    CountryName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,8 +26,8 @@ namespace Entities.Migrations
                 columns: table => new
                 {
                     PersonID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PersonName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PersonName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     CountryID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
