@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRUDTest
+namespace ServiceContracts.Enums
 {
-    public class MathService
+    public enum SortOrderEnum
     {
-        public int add(int a, int b)
-        {
-            return a + b;
-        }
+        ASC,DSC
     }
 }
