@@ -7,24 +7,24 @@ using ServiceContracts.Enums;
 
 namespace Services
 {
-  public class PersonsService : IPersonsService
-  {
-    //private field
-    private readonly PersonsDbContext _db;
-    private readonly ICountriesService _countriesService;
-
-    //constructor
-    public PersonsService(PersonsDbContext personDbContext, ICountriesService countriesService)
+    public class PersonsService : IPersonsService
     {
-      _db = personDbContext;
-      _countriesService = countriesService;
-    }
+        //private field
+        private readonly PersonsDbContext _db;
+        private readonly ICountriesService _countriesService;
+
+        //constructor
+        public PersonsService(PersonsDbContext personDbContext, ICountriesService countriesService)
+        {
+            _db = personDbContext;
+            _countriesService = countriesService;
+        }
 
 
-    private PersonResponse ConvertPersonToPersonResponse(Person person)
-    {
-      PersonResponse personResponse = person.ToPersonResponse();
-      personResponse.Country = _countriesService.GetCountryByCountryID(person.CountryID)?.CountryName;
+        private PersonResponse ConvertPersonToPersonResponse(Person person)
+        {
+            PersonResponse personResponse = person.ToPersonResponse();
+            personResponse.Country = _countriesService.GetCountryByCountryID(person.CountryID)?.CountryName;
             return personResponse;
         }
 
@@ -57,8 +57,11 @@ namespace Services
         public List<PersonResponse> GetAllPersons()
         {
             //SELECT * from Persons
-            return _db.Persons.ToList()
-              .Select(temp => ConvertPersonToPersonResponse(temp)).ToList();
+            //  return _db.Persons.ToList()
+            //   .Select(temp => ConvertPersonToPersonResponse(temp)).ToList();
+            return _db.
+                 sp_GetAllPersons()
+               .Select(temp => ConvertPersonToPersonResponse(temp)).ToList();
         }
 
 
