@@ -41,6 +41,8 @@ namespace Entities
                 .HasColumnName("TaxIdentificationNumber")
                 .HasColumnType("nvarchar(8)")
                 .HasDefaultValue("ABCD1234");
+
+            modelBuilder.Entity<Person>().HasCheckConstraint("CK_Persons_TIN", "LEN(TaxIdentificationNumber) = 8");
         }
 
         public List<Person> sp_GetAllPersons()
