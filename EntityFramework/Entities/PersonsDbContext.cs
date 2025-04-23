@@ -35,6 +35,12 @@ namespace Entities
 
             foreach (Person person in persons)
                 modelBuilder.Entity<Person>().HasData(person);
+
+            modelBuilder.Entity<Person>()
+                .Property(p => p.TIN)
+                .HasColumnName("TaxIdentificationNumber")
+                .HasColumnType("nvarchar(8)")
+                .HasDefaultValue("ABCD1234");
         }
 
         public List<Person> sp_GetAllPersons()
